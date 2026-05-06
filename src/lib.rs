@@ -4,6 +4,7 @@ use std::time::{Duration, Instant};
 pub struct Timer {
     hz: u64,
     dt: f64,
+    time: f64,
     period: Duration,
     next_tick: Instant,
     log_accum: u64,
@@ -16,6 +17,7 @@ impl Timer {
         Self {
             hz,
             dt,
+            time: 0.0,
             period,
             next_tick: Instant::now() + period,
             log_accum: 0,
@@ -24,6 +26,15 @@ impl Timer {
 
     pub fn dt(&self) -> f64 {
         self.dt
+    }
+
+    pub fn time(&self) -> f64 {
+        self.time
+    }
+
+    pub fn stamp(&mut self) -> f64 {
+        self.time += self.dt;
+        self.time
     }
 
     pub fn should_log(&mut self, hz: u64) -> bool {
