@@ -1,3 +1,4 @@
+use std::collections::HashMap;
 use std::time::{Duration, Instant};
 
 #[derive(Debug, Clone)]
@@ -7,7 +8,7 @@ pub struct Timer {
     time: f64,
     period: Duration,
     next_tick: Instant,
-    log_accum: u64,
+    gates: HashMap<u64, u64>,
 }
 
 impl Timer {
@@ -20,7 +21,7 @@ impl Timer {
             time: 0.0,
             period,
             next_tick: Instant::now() + period,
-            log_accum: 0,
+            gates: HashMap::new(),
         }
     }
 
@@ -37,10 +38,13 @@ impl Timer {
         self.time
     }
 
-    pub fn should_log(&mut self, hz: u64) -> bool {
-        self.log_accum += hz;
-        if self.log_accum >= self.hz {
-            self.log_accum -= self.hz;
+    #[inline]
+    pub fn should_log(&mut self, log_hz: u64) -> bool {
+        let timer_hz = self.hz;
+        let acc = self.gates.entry(log_hz).or_insert(0);
+        *acc += log_hz;
+        if *acc >= timer_hz {
+            *acc -= timer_hz;
             true
         } else {
             false
