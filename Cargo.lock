@@ -3,7 +3,7 @@
 version = 4
 
 [[package]]
-name = "rt-timer"
+name = "rt_timer"
 version = "0.1.0"
 dependencies = [
  "spin_sleep",
