@@ -2,6 +2,14 @@
 name = "rt_timer"
 version = "0.1.0"
 edition = "2024"
+rust-version = "1.85"
+description = "Small real-time loop timer with rate gates."
+license = "MIT"
+repository = "https://github.com/azakura-systems/rt_timer"
+documentation = "https://docs.rs/rt_timer"
+readme = "README.md"
+keywords = ["timer", "realtime", "rate", "loop"]
+categories = ["date-and-time"]
 
 [dependencies]
 spin_sleep = "1.3.3"
